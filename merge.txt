@@ -1,0 +1,11 @@
+# 1. 官方更新同步到 main（--ff-only 保证 main 始终是官方代码的干净镜像）
+git switch main
+git fetch upstream
+git merge --ff-only upstream/main
+
+# 2. 合并到 dev（如有冲突需手动解决）
+git switch dev
+git merge main
+
+# 3. 推送合并结果到 origin
+git push origin dev
