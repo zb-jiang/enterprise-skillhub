@@ -28,6 +28,7 @@ import com.iflytek.skillhub.storage.ObjectStorageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -95,6 +96,14 @@ public class SkillPublishService {
     private final SkillStorageDeletionCompensationService compensationService;
     private final ApplicationEventPublisher eventPublisher;
     private final Clock clock;
+
+    /**
+     * Whether publishing public or namespace-only skills requires the security scanner.
+     * Upstream default is true. Enterprise deployments without a scanner service set it to
+     * false (local profile) so internal packages can publish unscanned.
+     */
+    @Value("${skillhub.security.scanner.required-for-publish:true}")
+    private boolean scannerRequiredForPublish = true;
 
     public SkillPublishService(
             NamespaceRepository namespaceRepository,
@@ -630,7 +639,8 @@ public class SkillPublishService {
     }
 
     private boolean requiresSecurityScanner(SkillVisibility visibility) {
-        return visibility == SkillVisibility.PUBLIC || visibility == SkillVisibility.NAMESPACE_ONLY;
+        return scannerRequiredForPublish
+                && (visibility == SkillVisibility.PUBLIC || visibility == SkillVisibility.NAMESPACE_ONLY);
     }
 
     private String resolveNamespaceSlug(Long namespaceId) {

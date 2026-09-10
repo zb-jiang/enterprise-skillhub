@@ -27,6 +27,9 @@ skillhub:
   auth:
     mock:
       enabled: true
+  builtin-skills:
+    # 企业私有部署不需要上游内置的 16 个演示 skill，启动时不下载不发布
+    enabled: ${SKILLHUB_BUILTIN_SKILLS_ENABLED:false}
   ratelimit:
     download:
       anonymous-cookie-secret: ${SKILLHUB_DOWNLOAD_ANON_COOKIE_SECRET:local-dev-download-secret-32-bytes}
@@ -36,7 +39,9 @@ skillhub:
       unread-retention-days: 90
   security:
     scanner:
-      enabled: ${SKILLHUB_SECURITY_SCANNER_ENABLED:true}
+      # 本机未部署 scanner 服务，默认关闭；发布不再强制扫描（企业 fork 开关，上游默认 true）
+      enabled: ${SKILLHUB_SECURITY_SCANNER_ENABLED:false}
+      required-for-publish: false
       base-url: ${SKILLHUB_SECURITY_SCANNER_URL:http://localhost:8000}
       mode: ${SKILLHUB_SECURITY_SCANNER_MODE:upload}
     stream:
