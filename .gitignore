@@ -82,9 +82,6 @@ docs/requirements/
 docs/review/
 docs/superpowers/
 
-# Local workspace metadata
-CLAUDE.md
-
 # Local report-generation skill
 .agents/skills/generate-skillhub-weekly-report/
 
