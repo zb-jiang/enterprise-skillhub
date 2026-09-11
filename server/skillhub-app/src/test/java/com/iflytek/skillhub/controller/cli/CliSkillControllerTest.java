@@ -138,7 +138,7 @@ class CliSkillControllerTest {
         UserAccount user = new UserAccount("sync-user", "Sync User", "sync@example.com", "");
         var response = new com.iflytek.skillhub.dto.cli.CliNamespaceSyncResponse(
                 List.of(new com.iflytek.skillhub.dto.cli.CliNamespaceSyncItemResponse(
-                        "team-a", "demo", "1.0.0", 42L, "sha256:fingerprint",
+                        "team-a", "demo", "差旅报销草稿预填", "1.0.0", 42L, "sha256:fingerprint",
                         java.time.Instant.parse("2026-08-20T00:00:00Z"), "NAMESPACE_ONLY",
                         "/api/v1/skills/team-a/demo/versions/1.0.0/download"
                 )),
@@ -158,6 +158,7 @@ class CliSkillControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.items[0].namespace").value("team-a"))
                 .andExpect(jsonPath("$.data.items[0].slug").value("demo"))
+                .andExpect(jsonPath("$.data.items[0].summary").value("差旅报销草稿预填"))
                 .andExpect(jsonPath("$.data.items[0].version").value("1.0.0"))
                 .andExpect(jsonPath("$.data.nextCursor").value("2"));
 

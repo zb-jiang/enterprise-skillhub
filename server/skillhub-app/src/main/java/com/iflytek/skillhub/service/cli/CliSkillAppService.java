@@ -113,6 +113,7 @@ public class CliSkillAppService {
         return new CliNamespaceSyncItemResponse(
                 namespace,
                 skill.getSlug(),
+                skill.getSummary(),
                 resolved.version(),
                 resolved.versionId(),
                 resolved.fingerprint(),
