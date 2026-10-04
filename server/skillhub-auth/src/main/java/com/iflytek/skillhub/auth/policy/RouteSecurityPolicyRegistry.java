@@ -17,6 +17,12 @@ import org.springframework.util.AntPathMatcher;
 public class RouteSecurityPolicyRegistry {
 
     private static final List<RouteAuthorizationPolicy> AUTHORIZATION_POLICIES = List.of(
+            // 前端打包进 jar 后由 Spring Boot 服务静态资源（原先由独立 nginx 容器承担），登录页必须匿名可达
+            RouteAuthorizationPolicy.permitAll(null, "/"),
+            RouteAuthorizationPolicy.permitAll(null, "/index.html"),
+            RouteAuthorizationPolicy.permitAll(null, "/assets/**"),
+            RouteAuthorizationPolicy.permitAll(null, "/registry/**"),
+            RouteAuthorizationPolicy.permitAll(null, "/favicon.ico"),
             RouteAuthorizationPolicy.permitAll(null, "/api/v1/health"),
             RouteAuthorizationPolicy.permitAll(null, "/api/v1/search"),
             RouteAuthorizationPolicy.permitAll(null, "/api/v1/resolve/**"),
